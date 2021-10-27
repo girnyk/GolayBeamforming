@@ -10,7 +10,7 @@ We propose an efficient method for designing broad beams with spatially flat arr
 A preprint of the article available at https://arxiv.org/pdf/2110.05214.pdf. 
 
 ## Software requirements
-The codes have been developed in Matlab 2015a and do not require additional packages. They generate all the result figures from the paper (with the exception of those showing measured radiation patterns of a real antennas).
+The codes have been developed in Matlab 2015a and do not require additional packages. They generate all the result figures from the paper (with the exception of those showing measured radiation patterns of real antennas).
 
 ## License
 This code is licensed under the Apache-2.0 license. If you use this code in any way for research that results in a publication, please cite the above paper.

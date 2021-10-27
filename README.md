@@ -1,5 +1,6 @@
 # Efficient Cell-Specific Beamforming for Large Antenna Arrays
 This repository contains the codes for producing the figures from the following paper:
+
 M. A. Girnyk and S. O. Petersson, "[Efficient Cell-Specific Beamforming for Large Antenna Arrays](https://ieeexplore.ieee.org/abstract/document/9540836)," *IEEE Transactions on Communications*, To appear. 
 
 ## Abstract

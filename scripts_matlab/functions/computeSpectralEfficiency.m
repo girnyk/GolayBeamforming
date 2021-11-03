@@ -45,8 +45,8 @@ uePathlossesDb = -( 22*log10(ueDistancesM) );
 
 % Get linear-scale values
 snrs = [10.^(methodData.snrsDb/10)]';
-gamma = 10.^(gammaDb / 10);
-uePathlosses = datasample(10.^(uePathlossesDb / 10), nUeLocations);
+gamma = 10.^(gammaDb/10);
+uePathlosses = datasample(10.^(uePathlossesDb/10), nUeLocations);
 
 % Get antenna pattern within the sector
 methodData.anglesDeg = setorAngles;

@@ -91,22 +91,23 @@ fprintf( 'Array configuration:  %dx%d\n', nAntennasVertical, nAntennasHorizontal
 fprintf( 'Compute array factor... ' );
 
 
-% Compute steering vectors
-steeringVecHor = exp((linspace(0, nAntennasHorizontal-1, nAntennasHorizontal).'...
-  + (nAntennasHorizontal-1)/2)*1i*2*pi*spacingHorizontalLambda*sind(anglesAzimuth(:).'));
-steeringVecVer = exp((linspace(0, nAntennasVertical-1, nAntennasVertical).'...
-  + (nAntennasVertical-1)/2)*1i*2*pi*spacingVerticalLambda*sind(anglesZenith(:).'));
-
 % Compute array factor
 nAnglesZenith = length(anglesZenith);
 nAnglesAzimuth = length(anglesAzimuth);
-arrayFactor = NaN(nAnglesZenith, nAnglesAzimuth);
+arrayFactorA = NaN(nAnglesZenith, nAnglesAzimuth);
+arrayFactorB = NaN(nAnglesZenith, nAnglesAzimuth);
+arrayFactorTotal = NaN(nAnglesZenith, nAnglesAzimuth);
 for iZenith = 1:nAnglesZenith
-  for iAzimuth = 1:nAnglesAzimuth
-    steeringMat = kron(steeringVecHor(:, iAzimuth).', steeringVecVer(:, iZenith));
-    arrayFactor(iZenith, iAzimuth) =...
-      abs(trace(weightsA.'*steeringMat))^2 + abs(trace(weightsB.'*steeringMat))^2;
-  end
+    for iAzimuth = 1:nAnglesAzimuth
+        steeringVecHor = exp((linspace(0, nAntennasHorizontal-1, nAntennasHorizontal).'...
+            + (nAntennasHorizontal-1)/2)*1i*2*pi*spacingHorizontalLambda*sind(anglesAzimuth(iAzimuth))*sind(anglesZenith(iZenith)));
+        steeringVecVer = exp((linspace(0, nAntennasVertical-1, nAntennasVertical).'...
+            + (nAntennasVertical-1)/2)*1i*2*pi*spacingVerticalLambda*cosd(anglesZenith(iZenith)));
+        steeringMat = kron(steeringVecHor.', steeringVecVer);
+        arrayFactorA(iZenith, iAzimuth) = abs(trace(weightsA.'*steeringMat))^2;
+        arrayFactorB(iZenith, iAzimuth) = abs(trace(weightsB.'*steeringMat))^2;
+        arrayFactorTotal(iZenith, iAzimuth) = arrayFactorA(iZenith, iAzimuth) + arrayFactorB(iZenith, iAzimuth);
+    end
 end
 
 fprintf( 'DONE!\n');
@@ -120,7 +121,7 @@ fprintf( 'Plot figure... ' );
 % Plot the figure
 fig = figure;
 [phi, theta] = meshgrid(pi/180*anglesAzimuth, pi/180*(90-anglesZenith));
-[x, y, z] = sph2cart(phi, theta, arrayFactor/max(max(arrayFactor)));
+[x, y, z] = sph2cart(phi, theta, arrayFactorTotal/max(max(arrayFactorTotal)));
 plotPatternSphere = surf(x, y, z, 'FaceColor', 'red', 'FaceAlpha', 1);
 plotPatternSphere.EdgeColor = 'k';
 
